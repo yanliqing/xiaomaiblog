@@ -1,0 +1,249 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>归档：2014 | 麦子的技术地</title>
+  <meta name="author" content="小麦">
+  
+  <meta name="description" content="麦子的技术地">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="麦子的技术地"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/xiaomaiblog/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="麦子的技术地" type="application/atom+xml">
+  <link rel="stylesheet" href="/xiaomaiblog/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+  
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fecb819c2557ba2b93b35d97794d94ee6' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/xiaomaiblog/">麦子的技术地</a></h1>
+  <h2><a href="/xiaomaiblog/">享受奇妙自然，探索无边技术</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/xiaomaiblog">首页</a></li>
+    
+      <li><a href="/xiaomaiblog/archives">归档</a></li>
+    
+      <li><a href="/xiaomaiblog/about">关于</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+<h2 class="archive-title">2014</h2>
+
+
+  
+    <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2014-03-05T15:03:24.000Z"><a href="/xiaomaiblog/2014/03/05/构建基于rest的Web服务/">3月 5 2014</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/xiaomaiblog/2014/03/05/构建基于rest的Web服务/">构建基于rest的Web服务</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h3 id="-">环境准备：</h3>
+<p>　　一种集成开发环境IDE;(本文使用Spring Tool Suite (STS) )<br>　　JDK 1.6及以上;<br>　　Gradle 1.8+ or Maven 3.0+(本文使用maven 3.1.1);  </p>
+<h3 id="-">新建项目：</h3>
+<p>如果你对新建maven项目不是很熟悉，请参照spring官网创建<a href="http://spring.io/guides/gs/maven/" target="_blank">maven</a>项目的简单教程。</p>
+<h3 id="-">创建文件目录结构：</h3>
+<p><code>└── src     
+     └── main 
+        └── java  
+            └── hello</code>  </p>
+<h3 id="-">创建工具构建文件：</h3>
+<p>maven的<a href="https://github.com/spring-guides/gs-rest-service/blob/master/initial/pom.xml" target="_blank">pom.xml</a>文件可以从这里获取。将这里的pom.xml文件直接覆盖你项目的pom.xml文件。  </p>
+<h3 id="-">创建一个资源表示类</h3>
+<p>项目和环境打好之后，我们就可以创建我们的web服务了。<br>我们的web服务将处理一个名为/greeting，并任意的带有一个名为name参数的GET请求。GET请求将返回200 OK的响应，响应体内带有JSON格式数据，数据结构如下：  </p>
+<pre><code>{  
+    &quot;id&quot;: 1,  
+    &quot;content&quot;: &quot;Hello, World!&quot;  
+}  
+</code></pre><p>在目录<code>src/main/java/hello</code>下新建文件Greeting.java。  </p>
+<pre><code>package hello;  
+public class Greeting {  
+    private final long id;
+    private final String content;  
+    public Greeting(long id, String content) {
+    this.id = id;
+    this.content = content;
+}
+
+   public long getId() {  
+        return id;  
+    }  
+
+    public String getContent() {  
+        return content;  
+    }  
+}
+</code></pre><h3 id="-">创建一个资源控制器</h3>
+<p><em>解析：用spring构建rest的web服务，HTTP请求用控制器来掌控。这个组件简单的被<code>@Controller</code>注解标识。下面的GreetingController为/greeting处理了GET方式的请求，并返回一个新的Greeting对象。<code>@RequestMapping</code>注解确保HTTP请求将/greeting映射到greeting()方法。<code>@RequestParam</code>将请求中的参数name绑定到方法中的name参数，请求中的参数不是必须的，如果没有的话，默认值World就会派上用场。传统的MVC控制器与基于rest的web服务的一个关键区别在于HTTP响应体的创建。与MVC在服务端呈现HTML格式的响应数据不同的是基于rest的web服务返回的是一个JSON对象。注解<code>@ResponseBody</code>的作用就是告诉spring MVC不要返回html而是返回一个对象。</em>     </p>
+<p>在目录<code>src/main/java/hello</code>下新建文件GreetingController.java。   </p>
+<pre><code>package hello;
+
+import java.util.concurrent.atomic.AtomicLong;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+@Controller
+public class GreetingController {
+
+private static final String template = &quot;Hello, %s!&quot;;
+private final AtomicLong counter = new AtomicLong();
+
+@RequestMapping(&quot;/greeting&quot;)
+public @ResponseBody Greeting greeting(
+        @RequestParam(value=&quot;name&quot;, required=false, defaultValue=&quot;World&quot;) String name) {
+    return new Greeting(counter.incrementAndGet(),
+                        String.format(template, name));
+    }
+}
+</code></pre><h3 id="-">使应用程序可执行</h3>
+<p>在目录<code>src/main/java/hello</code>下新建文件Application.java。<br>    package hello;</p>
+<pre><code>import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.SpringApplication;
+import org.springframework.context.annotation.ComponentScan;
+
+@ComponentScan
+@EnableAutoConfiguration
+public class Application {
+
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+} 
+</code></pre><p><em>解析：注解<code>@ComponentScan</code>，告诉spring在包hello以及他的子类中递归的查找被直接或间接的标注了<code>@Component</code>的类。这确保spring能找到并注册标有<code>@Controller</code>的GreetingController，<code>@Controller</code>是<code>@Component</code>的一种</em></p>
+<h3 id="-jar">构建一个可执行JAR</h3>
+<p>如果你使用的是maven，你可以使用 mvn spring-boot:run来启动应用程序。或者你可以通过mvn clean package打包jar文件，然后用java -jar target/gs-rest-service-0.1.0.jar来运行jar文件。    </p>
+<h3 id="-">运行服务</h3>
+<p>上面以及提到，如果你用的是maven，你可以直接用命令行mvn spring-boot:run.来启动应用程序。</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  
+    <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2014-02-25T15:15:33.000Z"><a href="/xiaomaiblog/2014/02/25/hello-world/">2月 25 2014</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/xiaomaiblog/2014/02/25/hello-world/">第一篇博客</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>终于搭建好了！睡觉！</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  
+
+  <nav id="pagination">
+  
+  
+  <div class="clearfix"></div>
+</nav>
+</div></div>
+    <aside id="sidebar" class="alignright">
+  
+<div class="widget tag">
+  <h3 class="title">最新文章</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/xiaomaiblog/2014/03/05/构建基于rest的Web服务/">构建基于rest的Web服务</a>
+      </li>
+    
+      <li>
+        <a href="/xiaomaiblog/2014/02/25/hello-world/">第一篇博客</a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
+
+  <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1713612592&verifier=b9041467&dpc=1"></iframe>
+
+  <div class="widget tag">
+<h3 class="title">友情链接</h3>
+<ul class="entry">
+<li>
+    <a href="http://ksda62375600.blog.163.com/" title="漠漠的草地" target="_blank">漠漠的草地</a>
+</li>
+</ul>
+</div>
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2014 小麦
+  
+</div>
+<div class="clearfix"></div></footer>
+</body>
+</html>

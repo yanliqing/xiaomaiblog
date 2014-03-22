@@ -72,7 +72,37 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
     </header>
     <div class="entry">
       
-        
+        <p>很早就听说过nodejs的威力了，一直想学习，但是一直比较忙，而且自己也是举棋不定，初出茅庐的我，对众多技术比较迷茫，什么都想学，最后什么的没开始学。这次我是下定决心一定好静下心来慢慢学，就从nodejs开始吧。网上找到一份77页的nodejs入门手册，我几乎是花了两个晚上就看完了，然后跟着书本搭建了web服务，可以说nodejs的入门还是比较简单的，只要有点javascript的知识都能上手。下面我就把根据手册一步步实现的一个web小应用的步骤记录下来，就当是温故吧！<br>首先介绍一下nodejs。nodejs是一个javascript框架，是一个让javascript运行种在服务器段的开发平台。nodejs内建了HTTP服务的支持，也就是说你不用在自己去搭建一个Apache之类的服务器了，你可以使用nodejs轻松实现一个网站和服务器的组合。nodejs最大的特点是采用异步式I/O与事件驱动的架构设计。对于高并发的解决方案，传统的架构是多线程模型，而nodejs是单线程模型，对于所有I/O请求采用异步式的请求方式。nodejs开发是以模块的方式进行的，把各个功能拆分、组装，通过require来调用其他模块。总结自BYvoid大神的《Node.js开发指南》
+简单了解后我们开始吧。<br>首先，既然是一个web应用，就必然需要一个应用服务器来处理应用产生的各种HTTP请求，前面提到nodejs内建了HTTP服务，我们可以用很简单的代码来建立一个服务器。代码如下server.js:</p>
+<pre><code>var http = require(&quot;http&quot;); 
+var url = require(&quot;url&quot;);
+function start(route, handle) { 
+function onRequest(request, response) {
+ var pathname = url.parse(request.url).pathname; 
+ console.log(&quot;Request for &quot; + pathname + &quot; received.&quot;); 
+ route(handle, pathname, response, request); 
+ } 
+ http.createServer(onRequest).listen(8888);
+ console.log(&quot;Server has started.&quot;);
+ }
+ exports.start = start;
+</code></pre><p><em>第一行代码就是调用了nodejs的内建HTTP服务。http.createServer这个函数会返回一个对象，这个对象有一个叫做 listen 的方法，这个方法有一个数值参数，指定这个HTTP服务器监听的端口号。最后一行代码表示这个模块通过名称start暴露出来。</em>
+我们看到onRequest方法里有一个route方法，很奇怪，哪里来的呢？route.js:
+    function route(handle, pathname, response, request) { 
+    console.log(&quot;About to route a request for &quot; + pathname); 
+    if (typeof handle[pathname] === &#39;function&#39;) {
+     handle<a href="response, request">pathname</a>; 
+    } else {
+    console.log(&quot;No request handler found for &quot; + pathname);
+     response.writeHead(404, {&quot;Content-Type&quot;: &quot;text/html&quot;});
+     response.write(&quot;404 Not found&quot;); 
+     response.end();
+     } 
+     }
+     exports.route = route;</p>
+<p>上面这段代码的功能我们从文件名route就能猜到了。对的，就是请求路径的路由转发作用。handle暂且不管，pathname就是server.js中对请求解析好传过来的路径名称，在route中它会指定handle具体去进行什么样的操作。那么handle到底长什么样呢？
+<img src="/img/1.PNG" alt=""></p>
+
       
     </div>
     <footer>

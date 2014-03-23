@@ -85,7 +85,7 @@ function onRequest(request, response) {
 </code></pre><p><em>第一行代码就是调用了nodejs的内建HTTP服务。http.createServer这个函数会返回一个对象，这个对象有一个叫做 listen 的方法，这个方法有一个数值参数，指定这个HTTP服务器监听的端口号。最后一行代码表示这个模块通过名称start暴露出来。</em><br>我们看到onRequest方法里有一个route方法，很奇怪，哪里来的呢？route.js:<br><img src="/xiaomaiblog/img/3.png" alt=""><br>上面这段代码的功能我们从文件名route就能猜到了。对的，就是请求路径的路由转发作用。handle暂且不管，pathname就是server.js中对请求解析好传过来的路径名称，在route中它会指定handle具体去进行什么样的操作。那么handle到底长什么样呢？<br><img src="/xiaomaiblog/img/1.png" alt=""><br><img src="/xiaomaiblog/img/2.png" alt=""><br>我们看到这里有三个方法，start、upload、show。这三个方法分别的作用是start：展示一个界面，有选择文件和上传按钮；upload：就是上传图片的那个方法；show：就是将刚才上传的图片展示出来。<br>有了服务模块、有了请求路由模块、有了请求处理模块，现在是万事具备只欠东风了。这个东风就是用于启动我们应用的主文件，按照常理，主文件一般用index命名，我们这里也如此。      index.js：<br><img src="/xiaomaiblog/img/4.png" alt=""><br>有了这个主文件，我们就能很好的把以上一个模块串联起来，并且理解这个简单的图片上传应用。<br><em>前三行代码很容易理解，就是引用模块，这里引用了上面的server、route和requestHandlers，然后是定义一个数组，将请求名跟请求方法对应起来。举个例子，如果你的请求时应用的默认地址，则路由会将请求转发给handle的start方法，如果你的地址后跟着start，那个路由将会转发给handle的start方法，执行start方法并返回结果。最后一句代码就是调用server的start方法，来启动服务并监听8888端口，把相应的route和handle作为值传过去。</em><br>好吧，一切ok了，让我们看看效果吧！<br>在node.js command prompt中进入你存放这些模块文件的目录，运行node index.js。我们可以看到提示服务以及起来了。<br><img src="/xiaomaiblog/img/5.png" alt=""><br>在浏览器中访问地址localhost:8888/start，效果图如下：<br><img src="/xiaomaiblog/img/6.png" alt=""><br>可以看到是一个简单的上传图片控件，试着上传一个图片看看：<br>选择文件
 <img src="/xiaomaiblog/img/7.png" alt=""><br>点击上传
 <img src="/xiaomaiblog/img/8.png" alt="">  </p>
-<p>nodejs简单的web服务就这样搭建好了，目前我在跟着《Node.js开发指南》学习基于nodejs的express web框架开发的网站，后续我会把学习心得和过程的记录也发不出来。</p>
+<p>nodejs简单的web服务就这样搭建好了，目前我在跟着《Node.js开发指南》学习基于nodejs的express web框架开发的网站，后续我会把学习心得和过程的记录也发布出来。</p>
 
       
     </div>

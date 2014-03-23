@@ -82,23 +82,10 @@ function onRequest(request, response) {
  console.log(&quot;Server has started.&quot;);
  }
  exports.start = start;
-</code></pre><p><em>第一行代码就是调用了nodejs的内建HTTP服务。http.createServer这个函数会返回一个对象，这个对象有一个叫做 listen 的方法，这个方法有一个数值参数，指定这个HTTP服务器监听的端口号。最后一行代码表示这个模块通过名称start暴露出来。</em>
-我们看到onRequest方法里有一个route方法，很奇怪，哪里来的呢？route.js:
-    function route(handle, pathname, response, request) { 
-    console.log(&quot;About to route a request for &quot; + pathname); 
-    if (typeof handle[pathname] === &#39;function&#39;) {
-     handle<a href="response, request">pathname</a>; 
-    } else {
-    console.log(&quot;No request handler found for &quot; + pathname);
-     response.writeHead(404, {&quot;Content-Type&quot;: &quot;text/html&quot;});
-     response.write(&quot;404 Not found&quot;); 
-     response.end();
-     } 
-     }
-     exports.route = route;</p>
-<p>上面这段代码的功能我们从文件名route就能猜到了。对的，就是请求路径的路由转发作用。handle暂且不管，pathname就是server.js中对请求解析好传过来的路径名称，在route中它会指定handle具体去进行什么样的操作。那么handle到底长什么样呢？
+</code></pre><p><em>第一行代码就是调用了nodejs的内建HTTP服务。http.createServer这个函数会返回一个对象，这个对象有一个叫做 listen 的方法，这个方法有一个数值参数，指定这个HTTP服务器监听的端口号。最后一行代码表示这个模块通过名称start暴露出来。</em><br>我们看到onRequest方法里有一个route方法，很奇怪，哪里来的呢？route.js:<br><img src="/xiaomaiblog/img/3.png" alt="">
+上面这段代码的功能我们从文件名route就能猜到了。对的，就是请求路径的路由转发作用。handle暂且不管，pathname就是server.js中对请求解析好传过来的路径名称，在route中它会指定handle具体去进行什么样的操作。那么handle到底长什么样呢？
 <img src="/xiaomaiblog/img/1.png" alt="">
-<img src="/xiaomaiblog/img/2.png" alt=""></p>
+<img src="/xiaomaiblog/img/2.png" alt=""><br>我们看到这里有三个方法，start、upload、show。这三个方法分别的作用是start：展示一个界面，有选择文件和上传按钮；upload：就是上传图片的那个方法；show：就是将刚才上传的图片展示出来。</p>
 
       
     </div>

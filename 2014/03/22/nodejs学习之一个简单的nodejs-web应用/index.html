@@ -67,7 +67,7 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
     </header>
     <div class="entry">
       
-        <p>很早就听说过nodejs的威力了，一直想学习，但是一直比较忙，而且自己也是举棋不定，初出茅庐的我，对众多技术比较迷茫，什么都想学，最后什么的没开始学。这次我是下定决心一定好静下心来慢慢学，就从nodejs开始吧。网上找到一份77页的nodejs入门手册，我几乎是花了两个晚上就看完了，然后跟着书本搭建了web服务，可以说nodejs的入门还是比较简单的，只要有点javascript的知识都能上手。下面我就把根据手册一步步实现的一个web小应用的步骤记录下来，就当是温故吧！<br>首先介绍一下nodejs。nodejs是一个javascript框架，是一个让javascript运行在服务器段的开发平台。nodejs内建了HTTP服务的支持，也就是说你不用在自己去搭建一个Apache之类的服务器了，你可以使用nodejs轻松实现一个网站和服务器的组合。nodejs最大的特点是采用异步式I/O与事件驱动的架构设计。对于高并发的解决方案，传统的架构是多线程模型，而nodejs是单线程模型，对于所有I/O请求采用异步式的请求方式。nodejs开发是以模块的方式进行的，把各个功能拆分、组装，通过require来调用其他模块。总结自BYvoid大神的《Node.js开发指南》<br><a id="more"></a> </p>
+        <p>很早就听说过nodejs的威力了，一直想学习，但是一直比较忙，而且自己也是举棋不定，初出茅庐的我，对众多技术比较迷茫，什么都想学，最后什么的没开始学。这次我是下定决心一定好静下心来慢慢学，就从nodejs开始吧。网上找到一份77页的nodejs入门手册，我几乎是花了两个晚上就看完了，然后跟着书本搭建了web服务，可以说nodejs的入门还是比较简单的，只要有点javascript的知识都能上手。下面我就把根据手册一步步实现的一个web小应用的步骤记录下来，就当是温故吧！<br>首先介绍一下nodejs。nodejs是一个javascript框架，是一个让javascript运行在服务器段的开发平台。nodejs内建了HTTP服务的支持，也就是说你不用在自己去搭建一个Apache之类的服务器了，你可以使用nodejs轻松实现一个网站和服务器的组合。nodejs最大的特点是采用异步式I/O与事件驱动的架构设计。对于高并发的解决方案，传统的架构是多线程模型，而nodejs是单线程模型，对于所有I/O请求采用异步式的请求方式。nodejs开发是以模块的方式进行的，把各个功能拆分、组装，通过require来调用其他模块。总结自BYvoid大神的《Node.js开发指南》<br><a id="more"></a>     </p>
 <h3 id="-">简单了解后我们开始吧。</h3>
 <p>首先，既然是一个web应用，就必然需要一个应用服务器来处理应用产生的各种HTTP请求，前面提到nodejs内建了HTTP服务，我们可以用很简单的代码来建立一个服务器。代码如下server.js:</p>
 <pre><code>var http = require(&quot;http&quot;); 

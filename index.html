@@ -114,79 +114,15 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
         └── java  
             └── hello</code>  </p>
 <h3 id="-">创建工具构建文件：</h3>
-<p>maven的<a href="https://github.com/spring-guides/gs-rest-service/blob/master/initial/pom.xml" target="_blank">pom.xml</a>文件可以从这里获取。将这里的pom.xml文件直接覆盖你项目的pom.xml文件。  </p>
-<h3 id="-">创建一个资源表示类</h3>
-<p>项目和环境打好之后，我们就可以创建我们的web服务了。<br>我们的web服务将处理一个名为/greeting，并任意的带有一个名为name参数的GET请求。GET请求将返回200 OK的响应，响应体内带有JSON格式数据，数据结构如下：  </p>
-<pre><code>{  
-    &quot;id&quot;: 1,  
-    &quot;content&quot;: &quot;Hello, World!&quot;  
-}  
-</code></pre><p>在目录<code>src/main/java/hello</code>下新建文件Greeting.java。  </p>
-<pre><code>package hello;  
-public class Greeting {  
-    private final long id;
-    private final String content;  
-    public Greeting(long id, String content) {
-    this.id = id;
-    this.content = content;
-}
-
-   public long getId() {  
-        return id;  
-    }  
-
-    public String getContent() {  
-        return content;  
-    }  
-}
-</code></pre><h3 id="-">创建一个资源控制器</h3>
-<p><em>解析：用spring构建rest的web服务，HTTP请求用控制器来掌控。这个组件简单的被<code>@Controller</code>注解标识。下面的GreetingController为/greeting处理了GET方式的请求，并返回一个新的Greeting对象。<code>@RequestMapping</code>注解确保HTTP请求将/greeting映射到greeting()方法。<code>@RequestParam</code>将请求中的参数name绑定到方法中的name参数，请求中的参数不是必须的，如果没有的话，默认值World就会派上用场。传统的MVC控制器与基于rest的web服务的一个关键区别在于HTTP响应体的创建。与MVC在服务端呈现HTML格式的响应数据不同的是基于rest的web服务返回的是一个JSON对象。注解<code>@ResponseBody</code>的作用就是告诉spring MVC不要返回html而是返回一个对象。</em>     </p>
-<p>在目录<code>src/main/java/hello</code>下新建文件GreetingController.java。   </p>
-<pre><code>package hello;
-
-import java.util.concurrent.atomic.AtomicLong;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-@Controller
-public class GreetingController {
-
-private static final String template = &quot;Hello, %s!&quot;;
-private final AtomicLong counter = new AtomicLong();
-
-@RequestMapping(&quot;/greeting&quot;)
-public @ResponseBody Greeting greeting(
-        @RequestParam(value=&quot;name&quot;, required=false, defaultValue=&quot;World&quot;) String name) {
-    return new Greeting(counter.incrementAndGet(),
-                        String.format(template, name));
-    }
-}
-</code></pre><h3 id="-">使应用程序可执行</h3>
-<p>在目录<code>src/main/java/hello</code>下新建文件Application.java。<br>    package hello;</p>
-<pre><code>import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.SpringApplication;
-import org.springframework.context.annotation.ComponentScan;
-
-@ComponentScan
-@EnableAutoConfiguration
-public class Application {
-
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
-} 
-</code></pre><p><em>解析：注解<code>@ComponentScan</code>，告诉spring在包hello以及他的子类中递归的查找被直接或间接的标注了<code>@Component</code>的类。这确保spring能找到并注册标有<code>@Controller</code>的GreetingController，<code>@Controller</code>是<code>@Component</code>的一种</em></p>
-<h3 id="-jar">构建一个可执行JAR</h3>
-<p>如果你使用的是maven，你可以使用 mvn spring-boot:run来启动应用程序。或者你可以通过mvn clean package打包jar文件，然后用java -jar target/gs-rest-service-0.1.0.jar来运行jar文件。    </p>
-<h3 id="-">运行服务</h3>
-<p>上面以及提到，如果你用的是maven，你可以直接用命令行mvn spring-boot:run.来启动应用程序。</p>
-
+<p>maven的<a href="https://github.com/spring-guides/gs-rest-service/blob/master/initial/pom.xml" target="_blank">pom.xml</a>文件可以从这里获取。将这里的pom.xml文件直接覆盖你项目的pom.xml文件。<br>
       
     </div>
     <footer>
       
+        
+          <div class="alignleft">
+            <a href="/xiaomaiblog/2014/03/05/构建基于rest的Web服务/#more" class="more-link">阅读全文</a>
+          </div>
         
         
       
